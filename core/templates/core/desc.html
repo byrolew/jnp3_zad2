@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Opis</title>
+{% endblock %}
+
+{% block content %}
+<div class = "container">
+  <div class="wrapper">
+    <div class="form-signin">
+      <h3 class="form-signin-heading">Opis eksperymentu</h3>
+      <p class="lead">W czasie eksperymentu pojawiać się będą zapalone lub zgaszone lampki. Twoim zadaniem będzie naciśnięcie klawiszy odpowiadających zapalonym lampkom. <br> 
+      {% if exp.all_buttons %}Lampki zgasną po naciśnięciu wszystkich przycisków. {% else %}Lampki zgasną po jakimś czasie niezależnie od naciśniętych przycisków. {% endif %} <br>
+      {% if exp.feedback %}Przy naciśnięciu niepoprawnego przycisku usłyszysz dźwięk. {% endif %}<br>
+      Najpierw przejdziesz przez sesje próbną, aby nauczyć się obsługiwania programu, później pojawi się sesja prawdziwa. <br> 
+      Klawisze, których będziesz używać to: 1, 2, 3, 4, 5, 6, 7, 8, 9, 0</p>
+      <a href="{% url 'experiment_page' %}" >
+        <button class="btn btn-lg btn-primary btn-block" type="Submit">Przejdź do {% if exp.is_trial %}sesji próbnej{% else %}kolejnej sesji{% endif %}</button>
+      </a>
+    </div>     
+  </div>
+</div>
+{% endblock %}

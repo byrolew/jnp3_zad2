@@ -1,0 +1,62 @@
+.wrapper_center {    
+	margin-top: 20%;
+	margin-bottom: 20%;
+}
+
+.wrapper {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+.form-signin {
+  max-width: 720px;
+  padding: 30px 38px 66px;
+  margin: 0 auto;
+  background-color: #eee;
+  border: 3px solid rgba(0,0,0,0.2);  
+  }
+
+.form-signin-heading {
+  text-align:center;
+  margin-bottom: 30px;
+}
+
+.form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+}
+
+input[type="text"] {
+  margin-bottom: 0px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.on img.turned_on {
+  display: inline-block;
+  width: 100%;
+}
+
+.on img.turned_off {
+  display: none;
+}
+
+.off img.turned_off {
+  display: inline-block;
+  width: 100%;
+}
+
+.off img.turned_on {
+  display: none;
+}
+
+.not-used {
+  display: None;
+}
+
+.pause {
+  margin-top: 100px;
+  padding-bottom: 30px;
+}
