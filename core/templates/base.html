@@ -3,7 +3,7 @@
 <html lang="pl">
 <head>
   {% block title %}
-  <title>1023</title>
+  <title>gil</title>
   {% endblock %}
 
   <meta charset="utf-8">
@@ -21,6 +21,12 @@
 </head>
 <body>
   {% block content %}
+  {% endblock %}
+
+  {% block next %}
+  <a href="{{ next_url }}">
+    <button class='next-button btn btn-primary'><h2>Dalej</h2></button>
+  </a>
   {% endblock %}
 </body>
 

@@ -1,41 +1,41 @@
 from django.db import models
 
+class Task(models.Model):
+    content_1 = models.TextField()
+    content_2 = models.TextField()
+    Q = models.TextField()
+    nQ = models.TextField()
+    P = models.TextField()
+    nP = models.TextField()
+    rule = models.TextField()
+    instruction = models.TextField()
+    my_id = models.IntegerField()
+        
 
 class Experiment(models.Model):
     username = models.CharField(max_length=256, blank=True, null=True)
-    feedback = models.BooleanField()
-    all_buttons = models.BooleanField()
-    lighting_time = models.IntegerField(default=0)
-    interval_time = models.IntegerField(default=0)
-    session_time = models.IntegerField(default=0)
-    is_trial = models.BooleanField()
-
-    def __str__(self):
-        return self.username
-
-
-class Sequence(models.Model):
-    experiment = models.ForeignKey('Experiment', on_delete=True)
-    seq_id = models.IntegerField()
-    is_done = models.BooleanField(default=0)
-    trial = models.BooleanField()
-
-    def __str__(self):
-        return self.experiment.username + ' ' + str(self.seq_id)
-
-
-class Session(models.Model):
-    experiment = models.ForeignKey('Experiment', on_delete=True)
-    time_spent = models.IntegerField(default=0)
-    first_ts = models.FloatField(default=0)
-    last_ts = models.FloatField(default=0)
+    is_male = models.NullBooleanField(blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+    mode = models.IntegerField()
+    time_to_red = models.IntegerField()
+    time_train_gil = models.IntegerField()
+    time_test_gil = models.IntegerField()
+    time_train_cards = models.IntegerField()
+    welcome = models.TextField()
+    instr_gil = models.TextField()
+    instr_cards = models.TextField()
 
 
 class Event(models.Model):
-    session = models.ForeignKey('Session', on_delete=True)
-    sequence = models.ForeignKey('Sequence', on_delete=True)
-    timestamp = models.FloatField()
-    event_type = models.CharField(max_length=16)
+    experiment = models.ForeignKey('Experiment', on_delete=True)
+    type_of_event = models.CharField(max_length=256)
+    time = models.IntegerField()
+    trial = models.BooleanField()
+    task = models.ForeignKey('TaskRandom', on_delete=True, blank=True, null=True)
 
-    def __str__(self):
-        return 'ET: {}, SEQ_ID: {}'.format(self.event_type , self.sequence.seq_id)
+
+class TaskRandom(models.Model):
+    experiment = models.ForeignKey('Experiment', on_delete=True)
+    task = models.ForeignKey('Task', on_delete=False)
+    is_done = models.BooleanField(default=0)
+    trial = models.BooleanField()

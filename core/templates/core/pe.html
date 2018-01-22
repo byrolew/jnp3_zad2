@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Specyfikacja</title>
+{% endblock %}
+
+{% block content %}
+<div class = "container">
+  <div class="wrapper">
+    <h2>Specyfikacja eksperymentu</h2>
+    <br>
+    <form class="col-12" method="post">{% csrf_token %}
+      <div class="form-group row">
+        <label class="col-4 col-form-label"><h5>Tryb</h5></label>
+        <div class="col-8">
+          <label class="radio-inline col-2"><input type="radio" name="mode" value="0" checked>Grupa kontrolna</label>
+          <label class="radio-inline col-2"><input type="radio" name="mode" value="1">Tryb bez sprzężenia</label>
+          <label class="radio-inline col-2"><input type="radio" name="mode" value="2">Tryb ze sprzężeniem</label>
+          <label class="radio-inline col-2"><input type="radio" name="mode" value="3">Tryb pilotażowy</label>
+        </div>
+      </div>
+      {% for t in times %}
+        <div class="form-group row">
+          <label class="col-4 col-form-label"><h5>{{ t.text }}</h5></label>
+          <div class="col-8">
+            <input class="form-control" type="text" placeholder="{{ t.default }}" name="{{ t.name }}">
+          </div>
+        </div>
+      {% endfor %}
+      {% for inp in input_names %}
+        <div class="form-group row">
+          <label class="col-4 col-form-label"><h5>{{ inp.text }}</h5></label>
+          <div class="col-8">
+            <textarea class="form-control" rows="3" name="{{ inp.name }}" placeholder="{{ inp.default }}"></textarea>
+          </div>
+        </div>
+      {% endfor %}
+      {% for task in tasks %}
+        <div class="form-group row">
+          <label class="col-4 col-form-label"><h5>Zadanie {{ task.my_id }}</h5></label>
+          <div class="col-8">
+            <div class="checkbox">
+              <label><input type="checkbox" value="{{ task.my_id }}" name="tasks">
+                <p>
+                  {{ task.content_1 }}
+                  <br><br>
+                  {{ task.rule }}
+                  <br><br>
+                  {{ task.content_2 }}
+                  <br><br>
+                  {{ task.instruction }}
+                  <br>  <br>
+                  Karta Q: {{ task.Q }}<br>Karta nQ: {{ task.nQ }}<br>Karta P: {{ task.P }}<br>Karta nP: {{ task.nP }}
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+        </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br><br>
+    <form class="col-12" method="post">{% csrf_token %}
+      <label class="col-4 col-form-label"><h5>Nowe zadanie</h5></label>
+      <div class="col-8">
+        <textarea class="form-control" rows="3" name="content_1" placeholder='pierwsza część'></textarea>
+        <textarea class="form-control" rows="3" name="content_2" placeholder='druga część'></textarea>
+        <textarea class="form-control" rows="3" name="instruction" placeholder='instrukcja'></textarea>
+        <textarea class="form-control" rows="2" name="rule" placeholder='reguła'></textarea>
+        <textarea class="form-control" rows="1" name="Q" placeholder='Q'></textarea>
+        <textarea class="form-control" rows="1" name="nQ" placeholder='nQ'></textarea>
+        <textarea class="form-control" rows="1" name="P" placeholder='P'></textarea>
+        <textarea class="form-control" rows="1" name="nP" placeholder='nP'></textarea>
+        <br>
+        <button type="submit" class="btn btn-primary">Dodaj zadanie</button>
+      </div>
+    </form> 
+  </div>
+</div>
+{% endblock %}
+{% block next %}
+{% endblock %}
