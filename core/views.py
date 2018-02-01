@@ -14,7 +14,7 @@ from .models import (
 
 
 def menu(request):
-    return render(request, 'core/menu.html', {'next_url': reverse('menu')})
+    return render(request, 'core/menu.html', {})
 
 def pe(request):
     if request.method == 'POST':
@@ -55,6 +55,7 @@ def pe(request):
                     welcome=post.get('welcome'),
                     instr_gil=post.get('instr_gil'),
                     instr_cards=post.get('instr_cards'),
+                    instr_test_gil=post.get('instr_test_gil'),
                 )
                 experiment.save()
 
@@ -83,6 +84,7 @@ def pe(request):
         Inp('welcome', 'Tekst powitania', 'domyślny tekst'),
         Inp('instr_gil', 'GIL - instrukcja', 'domyślny tekst'),
         Inp('instr_cards', 'Karty - instrukcja', 'domyślny tekst'),
+        Inp('instr_test_gil', 'Informacja o sesji testowej GIL', 'domyślny tekst'),
     ]
 
     tasks = Task.objects.all()
@@ -92,3 +94,70 @@ def pe(request):
         'times': times,
         'tasks': tasks,
         })
+
+def welcome(request):
+    experiment = Experiment.objects.latest('pk')
+
+    return render(request, 'core/instruction.html', {
+        'next_url': reverse('welcome'),
+        'text': experiment.welcome,
+        'title': 'Badanie',
+    })
+
+def instr_gil(request):
+    experiment = Experiment.objects.latest('pk')
+
+    return render(request, 'core/instruction.html', {
+        'next_url': reverse('welcome'),
+        'text': experiment.instr_gil,
+        'title': 'Generowanie Interwałów Losowych',
+    })
+
+def instr_cards(request):
+    experiment = Experiment.objects.latest('pk')
+
+    return render(request, 'core/instruction.html', {
+        'next_url': reverse('welcome'),
+        'text': experiment.instr_gil + '\n' + experiment.instr_cards,
+        'title': 'Generowanie Interwałów Losowych i rozwiązywanie zadania',
+    })
+
+def instr_test_gil(request):
+    experiment = Experiment.objects.latest('pk')
+
+    return render(request, 'core/instruction.html', {
+        'next_url': reverse('welcome'),
+        'text': experiment.instr_test_gil + '\n' + experiment.instr_gil,
+        'title': 'Generowanie Interwałów Losowych',
+    })
+
+def task_number(request):
+    ex = Experiment.objects.latest('pk')
+    tasks = TaskRandom.objects.filter(is_done=True, experiment=ex)
+    all_tasks = TaskRandom.objects.all()
+    n = len(tasks) + 1
+    if len(all_tasks) < n:
+        return render(request, 'core/instruction.html', {
+            'title': 'Dziękujemy za udział w badaniu',
+            'next_url': reverse('menu'),
+        })
+
+    return render(request, 'core/instruction.html', {
+        'title': 'Zadanie ' + str(n), 
+        'next_url': reverse('welcome'),
+    })
+
+def task(request):
+    ex = Experiment.objects.latest('pk')
+    task = TaskRandom.objects.filter(is_done=False, experiment=ex).latest('pk')
+    # task.is_done = True
+    # task.save()
+    Cards = namedtuple('Cards', ['c0', 'c1', 'c2', 'c3'])
+    cards_list = [task.task.Q, task.task.nQ, task.task.P, task.task.nP]
+    random.shuffle(cards_list)
+    cards = Cards(*cards_list)
+    return render(request, 'core/task.html', {
+        'task': task,
+        'next_url': reverse('task_number'),
+        'cards': cards,
+    })

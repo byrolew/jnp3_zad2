@@ -24,6 +24,7 @@ class Experiment(models.Model):
     welcome = models.TextField()
     instr_gil = models.TextField()
     instr_cards = models.TextField()
+    instr_test_gil = models.TextField()
 
 
 class Event(models.Model):
