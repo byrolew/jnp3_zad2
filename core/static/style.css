@@ -3,6 +3,14 @@
 	margin-bottom: 20%;
 }
 
+.btn-secondary:not([disabled]):not(.disabled).active, 
+.btn-secondary:not([disabled]):not(.disabled):active, 
+.show>.btn-secondary.dropdown-toggle, 
+.btn-secondary.focus, 
+.btn-secondary:focus {
+  box-shadow: none;
+}
+
 .card{
   padding: 20px;
   border: 2px solid rgba(0,0,0,0.5);

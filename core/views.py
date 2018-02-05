@@ -99,7 +99,7 @@ def welcome(request):
     experiment = Experiment.objects.latest('pk')
 
     return render(request, 'core/instruction.html', {
-        'next_url': reverse('welcome'),
+        'next_url': reverse('instr_gil'),
         'text': experiment.welcome,
         'title': 'Badanie',
     })
@@ -108,7 +108,7 @@ def instr_gil(request):
     experiment = Experiment.objects.latest('pk')
 
     return render(request, 'core/instruction.html', {
-        'next_url': reverse('welcome'),
+        'next_url': reverse('gil_train'),
         'text': experiment.instr_gil,
         'title': 'Generowanie Interwałów Losowych',
     })
@@ -144,20 +144,35 @@ def task_number(request):
 
     return render(request, 'core/instruction.html', {
         'title': 'Zadanie ' + str(n), 
-        'next_url': reverse('welcome'),
+        'next_url': reverse('task'),
     })
 
 def task(request):
-    ex = Experiment.objects.latest('pk')
-    task = TaskRandom.objects.filter(is_done=False, experiment=ex).latest('pk')
-    # task.is_done = True
-    # task.save()
-    Cards = namedtuple('Cards', ['c0', 'c1', 'c2', 'c3'])
-    cards_list = [task.task.Q, task.task.nQ, task.task.P, task.task.nP]
-    random.shuffle(cards_list)
-    cards = Cards(*cards_list)
-    return render(request, 'core/task.html', {
-        'task': task,
-        'next_url': reverse('task_number'),
-        'cards': cards,
+    if request.method == 'POST':
+        return redirect('task_number')
+    else:
+        ex = Experiment.objects.latest('pk')
+        task = TaskRandom.objects.filter(is_done=False, experiment=ex).latest('pk')
+        # task.is_done = True
+        # task.save()
+        Cards = namedtuple('Cards', ['c0', 'c1', 'c2', 'c3'])
+        cards_list = [task.task.Q, task.task.nQ, task.task.P, task.task.nP]
+        random.shuffle(cards_list)
+        cards = Cards(*cards_list)
+        return render(request, 'core/task.html', {
+            'task': task,
+            'next_url': reverse('task_number'),
+            'cards': cards,
+        })
+
+def gil_train(request):
+    return render(request, 'core/gil_train.html', {
+        'next_url': reverse('welcome'),
+        'train': True
+    })
+
+def gil_test(request):
+    return render(request, 'core/gil_train.html', {
+        'next_url': reverse('welcome'),
+        'train': False
     })

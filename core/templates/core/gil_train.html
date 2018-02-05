@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("body").click(function() {
+      alert( "Handler for .click() called." );
+    });
+
+    $("body").css("background-color", "grey");
+    // p.hide(1500).show(1500);
+    // p.queue(function() {
+    //   p.css("background-color", "red");
+    // });
+
+  });
+</script>
+{% endblock %}
+{% block next %}
+{% endblock %}

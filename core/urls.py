@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^instr_test_gil/$', views.instr_test_gil, name="instr_test_gil"),
     url(r'^task_number/$', views.task_number, name="task_number"),
     url(r'^task/$', views.task, name="task"),
+    url(r'^gil_train/$', views.gil_train, name="gil_train"),
+    url(r'^gil_test/$', views.gil_test, name="gil_test"),
 ]
