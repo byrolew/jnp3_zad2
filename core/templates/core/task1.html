@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="foo active_start">
+<div class = "container">
+  <div class="wrapper">
+    {% if task.experiment.mode == 0 %}
+      {{ task.task.content_1 }} <br><br> {{ task.task.content_2 }}
+    {% else %}
+      {{ task.task.content_1 }} <br><br> <b>{{ task.task.rule }}</b>
+      <br><br> {{ task.task.content_2 }}
+    {% endif %}
+    <hr>
+  </div>
+</div>
+</div>
+{% endblock %}

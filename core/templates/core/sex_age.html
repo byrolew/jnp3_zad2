@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Specyfikacja</title>
+{% endblock %}
+
+{% block content %}
+<div class = "container">
+  <div class="wrapper">
+    <h2>Dane</h2>
+    <br>
+    <form class="col-12" method="post">{% csrf_token %}
+      <div class="form-group row">
+        <label class="col-4 col-form-label"><h5>Pseudonim</h5></label>
+        <div class="col-8">
+          <input class="form-control" type="text" placeholder="pseudonim" name="username">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 col-form-label"><h5>Płeć</h5></label>
+        <div class="col-8">
+          <label class="radio-inline col-2"><input type="radio" name="is_male" value="0" checked>Kobieta</label>
+          <label class="radio-inline col-2"><input type="radio" name="is_male" value="1">Mężczyzna</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 col-form-label"><h5>Wiek</h5></label>
+        <div class="col-8">
+          <input class="form-control" type="text" placeholder="0" name="age">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Dalej</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block next %}
+{% endblock %}

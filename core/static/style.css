@@ -58,29 +58,22 @@ input[type="text"] {
   border-bottom-right-radius: 0;
 }
 
-.on img.turned_on {
-  display: inline-block;
-  width: 100%;
-}
-
-.on img.turned_off {
-  display: none;
-}
-
-.off img.turned_off {
-  display: inline-block;
-  width: 100%;
-}
-
-.off img.turned_on {
-  display: none;
-}
-
-.not-used {
-  display: None;
-}
-
 .pause {
   margin-top: 100px;
   padding-bottom: 30px;
+}
+
+.foo {
+  background-color: #b55;
+  height: 100vh
+}
+
+.foo[class*='active'] {
+    background-color: #eee;
+    height: 100vh
+}
+
+.foo[class*='green'] {
+  background-color: #5b5;
+  height: 100vh
 }

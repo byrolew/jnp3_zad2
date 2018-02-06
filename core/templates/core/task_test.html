@@ -1,10 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <body class='foo bar active_start'>
+<div class="foo active_start">
+<div class = "container">
+  <div class="wrapper">
+    {% if task.experiment.mode == 0 %}
+      {{ task.task.content_1 }} <br><br> {{ task.task.content_2 }}
+    {% else %}
+      {{ task.task.content_1 }} <br><br> <b>{{ task.task.rule }}</b>
+      <br><br> {{ task.task.content_2 }}
+    {% endif %}
+    <hr>
+      {% if task.experiment.mode == 0 %}
+        <br><br> <b>{{ task.task.rule }}</b> <br><br> {{ task.task.content_2 }}
+      {% endif %}
+      <br><br>
+      <tr>
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="0">{{ cards.c0 }}</button>
+      </th>
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="1">{{ cards.c1 }}</button>
+      </th> 
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="2">{{ cards.c2 }}</button>
+      </th> 
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="3">{{ cards.c3 }}</button>
+      </th> 
+      </tr>
+    </div>
+</div>
+</div>
 
-    <script type="text/javascript">
-    last_clicks = []
+<script type="text/javascript">
+  $(document).ready(function(e) {
+    setTimeout(function(){
+      window.location.replace({{ next_url }});
+    }, {{ time }});
+  });
+  last_clicks = []
     events = {}
 
       function post(path, params, method) {
@@ -44,15 +79,12 @@
         $('.foo').addClass(class_name);
         $('.foo').removeClass('active_start')
         setTimeout(function(){
-            $('.foo').removeClass($('.foo').attr("class").split(' ').filter(is_active)[0]);
+          $('.foo').removeClass($('.foo').attr("class").split(' ').filter(is_active)[0]);
         }, {{ time_to_red }});
       }
 
       $(document).ready(function(e) {
         keep_active_red()
-        setTimeout(function(){
-            post({{next_url}}, events);
-        }, {{ time }});
       });
 
 
@@ -79,21 +111,9 @@
           }
         }
 
-
-        // events.push({'type_of_event': 'event_right', 'time': e.timeStamp, 
-        //   'trial': {{train}}, 'task': null})
-
-        events['type_of_event_' + event_id] = 'event_right'
-        events['time_' + event_id] = e.timeStamp
-        events['trial_' + event_id] = {{train}}
-        events['task_' + event_id] = null
-        event_id = event_id + 1
-
       });
+</script>
 
-    </script>
-
-  </body>
 {% endblock %}
 {% block next %}
 {% endblock %}

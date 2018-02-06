@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="foo active_start">
+<div class = "container">
+  <div class="wrapper">
+    {% if task.experiment.mode == 0 %}
+      {{ task.task.content_1 }} <br><br> {{ task.task.content_2 }}
+    {% else %}
+      {{ task.task.content_1 }} <br><br> <b>{{ task.task.rule }}</b>
+      <br><br> {{ task.task.content_2 }}
+    {% endif %}
+    <hr>
+      {% if task.experiment.mode == 0 %}
+        <br> <b>{{ task.task.rule }}</b> <br><br> {{ task.task.content_2 }} <br>
+      {% else %}
+        <br> <b>{{ task.task.rule }}</b> <br>
+      {% endif %}
+      <br><br>
+      <tr>
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="0">{{ cards.c0 }}</button>
+      </th>
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="1">{{ cards.c1 }}</button>
+      </th> 
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="2">{{ cards.c2 }}</button>
+      </th> 
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="3">{{ cards.c3 }}</button>
+      </th> 
+      </tr>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
+{% block next %}
+    <button class='next-button btn btn-primary'><h2>Dalej</h2></button>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        params['csrfmiddlewaretoken'] = '{{ csrf_token }}'
+        for(var key in params) {
+            if(params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    last_clicks = []
+    events = {}
+
+      function post(path, params, method) {
+          method = method || "post"; // Set method to post by default if not specified.
+
+          // The rest of this code assumes you are not using a library.
+          // It can be made less wordy if you use one.
+          var form = document.createElement("form");
+          form.setAttribute("method", method);
+          form.setAttribute("action", path);
+
+          params['csrfmiddlewaretoken'] = '{{ csrf_token }}'
+          for(var key in params) {
+              if(params.hasOwnProperty(key)) {
+                  var hiddenField = document.createElement("input");
+                  hiddenField.setAttribute("type", "hidden");
+                  hiddenField.setAttribute("name", key);
+                  hiddenField.setAttribute("value", params[key]);
+
+                  form.appendChild(hiddenField);
+              }
+          }
+
+          document.body.appendChild(form);
+          form.submit();
+      }
+
+      function is_active(s) {
+        return s.startsWith('active')
+      }
+
+      active_id = 0
+      function keep_active_red() {
+        class_name = 'active' + active_id
+        active_id = active_id + 1
+
+        $('.foo').addClass(class_name);
+        $('.foo').removeClass('active_start')
+        setTimeout(function(){
+            if({{mode}} == 1 || {{mode}} == 2){
+              $('.foo').removeClass($('.foo').attr("class").split(' ').filter(is_active)[0]);
+            }
+        }, {{ time_to_red }});
+      }
+
+      $(document).ready(function(e) {
+        keep_active_red()
+      });
+
+
+      event_id = 0
+      $(document).contextmenu(function(e) {
+        e.preventDefault()
+        keep_active_red()
+        if (last_clicks.length < 4){
+          last_clicks.push(e.timeStamp)
+        } else {
+          last_clicks.shift()
+          last_clicks.push(e.timeStamp)
+        }
+        diffs = []
+        for (i = 1; i < last_clicks.length; i++) {
+          diffs.push(last_clicks[i-1] - last_clicks[i])
+        }
+        if (diffs.length > 2){
+          std = math.var(diffs)
+          if (std < 10000 && {{mode}} == 2){
+            $('.foo').addClass('green');
+          } else {
+            $('.foo').removeClass('green');
+          }
+        }
+
+
+        // events.push({'type_of_event': 'event_right', 'time': e.timeStamp, 
+        //   'trial': {{train}}, 'task': null})
+
+        events['type_of_event_' + event_id] = 'event_right'
+        events['time_' + event_id] = e.timeStamp
+        events['trial_' + event_id] = {{train}}
+        events['task_' + event_id] = null
+        event_id = event_id + 1
+
+      });
+
+      $('.cokolwiek').click(function(e) {
+        id = $(this).attr('id')
+        events['type_of_event_' + event_id] = 'event_left' + id
+        events['time_' + event_id] = e.timeStamp
+        events['trial_' + event_id] = {{train}}
+        events['task_' + event_id] = null
+        event_id = event_id + 1
+        console.log(events)
+      });
+
+      $('.next-button').click(function(e){
+        post("{% url 'task2' %}", events);
+      });
+</script>
+{% endblock %}

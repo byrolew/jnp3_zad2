@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="foo active_start">
+<div class = "container">
+  <div class="wrapper">
+    {% if task.experiment.mode == 0 %}
+      {{ task.task.content_1 }} <br><br> {{ task.task.content_2 }}
+    {% else %}
+      {{ task.task.content_1 }} <br><br> <b>{{ task.task.rule }}</b>
+      <br><br> {{ task.task.content_2 }}
+    {% endif %}
+    <hr>
+      {% if task.experiment.mode == 0 %}
+        <br><br> <b>{{ task.task.rule }}</b> <br><br> {{ task.task.content_2 }}
+      {% endif %}
+      <br><br>
+      <tr>
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="0">{{ cards.c0 }}</button>
+      </th>
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="1">{{ cards.c1 }}</button>
+      </th> 
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="2">{{ cards.c2 }}</button>
+      </th> 
+      <th>
+        <button class='float-left btn btn-lg btn-secondary col-3 cokolwiek' data-toggle="button" aria-pressed="false" id="3">{{ cards.c3 }}</button>
+      </th> 
+      </tr>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

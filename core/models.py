@@ -30,7 +30,7 @@ class Experiment(models.Model):
 class Event(models.Model):
     experiment = models.ForeignKey('Experiment', on_delete=True)
     type_of_event = models.CharField(max_length=256)
-    time = models.IntegerField()
+    time = models.FloatField()
     trial = models.BooleanField()
     task = models.ForeignKey('TaskRandom', on_delete=True, blank=True, null=True)
 
