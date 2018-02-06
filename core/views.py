@@ -149,6 +149,7 @@ def task_number(request):
 
 def task(request):
     if request.method == 'POST':
+        
         return redirect('task_number')
     else:
         ex = Experiment.objects.latest('pk')
